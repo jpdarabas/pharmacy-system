@@ -11,7 +11,7 @@ Objetivo do projeto
 Estrutura do projeto
 
 Público-alvo
-Os proprietários de pequenas e médias farmácias.
+Os proprietários de pequenas farmácias.
 
 Tecnologias utilizadas no projeto
 Será utilizada a biblioteca React.js para construir as telas deste protótipo.
