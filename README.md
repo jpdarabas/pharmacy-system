@@ -56,4 +56,9 @@ Tela de Gerenciamento de Clientes
 Os proprietários de pequenas farmácias.
 
 ### Tecnologias Utilizadas:
-Será utilizada a biblioteca React.js juntamente com next.js, também aliado ao CSS o uso de Bootstrap.
+Será utilizada a biblioteca React juntamente com vite.js e TypeScript, também aliado ao CSS o uso de Bootstrap.
+
+### Diferenciais:
+- Gerenciamento de Estoques Eficiente: A tela de produtos deve permitir que os usuários gerenciem seus estoques de forma eficaz, fornecendo informações detalhadas sobre nome, categoria, valor e quantidade em estoque. Além disso, notificações de estoque baixo ou esgotado podem ajudar a evitar a falta de produtos essenciais.
+- Gestão de Pedidos Abrangente: A tela de gerenciamento de pedidos deve ser capaz de executar funções essenciais, como edição, adição e remoção de pedidos. A inclusão de informações detalhadas sobre o número do pedido, cliente, produto e quantidade é crucial para um controle eficaz.
+- Gestão de Clientes e Fornecedores: As telas de gerenciamento de clientes e fornecedores devem permitir a edição, adição e remoção de informações relevantes, como nome, contato, CPF, CNPJ e email. Manter essas informações atualizadas é essencial para manter parcerias comerciais e fornecer um bom atendimento ao cliente.
