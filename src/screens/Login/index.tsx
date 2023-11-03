@@ -1,12 +1,3 @@
-/*function Login() {
-    return (
-    <div>
-    <p>Esta sera a tela de login</p>
-    </div>
-    )
-   }
-   export default Login*/
-
    import React, { useState } from 'react';
    import { Button, TextField, Paper, Typography, Grid, Link } from '@mui/material';
    import { useNavigate } from 'react-router-dom';
@@ -66,4 +57,3 @@
        </Grid>
      );
    }
-   
