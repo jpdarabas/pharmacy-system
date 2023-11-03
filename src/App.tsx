@@ -1,11 +1,10 @@
-import { useState } from 'react'
-import './screens/Dashboard/App.css'
+import { ThemeProvider } from "@emotion/react"
+import Router from "./router/Router"
+import { RouterProvider } from "react-router-dom"
 
 function App() {
-  return (
-  <div>
-  <p>Olá UniSATC!</p>
-  </div>
-  )
- }
+return (
+      <RouterProvider router={Router} />
+)
+}
 export default App

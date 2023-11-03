@@ -1,13 +1,12 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import Login from './screens/login';
-
-// Resto da configuração do roteamento
-// Importe a página de login
+import Login from "../screens/Login";
 
 const Router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="/login" element={<Login />} />
-        </Route>)
+            <Route path="/" element={<Login />} />
+        </Route>
+    )
 )
+
 export default Router;
