@@ -4,7 +4,7 @@ import Login from "../screens/Login";
 const Router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
         </Route>
     )
 )
