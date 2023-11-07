@@ -1,5 +1,5 @@
 import './screens/Dashboard/App.css'
-import Router from "./Router/router"
+import Router from "./router/Router"
 import { RouterProvider } from "react-router-dom"
 
 function App() {
@@ -8,4 +8,3 @@ function App() {
   )
 }
 export default App
-
