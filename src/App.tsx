@@ -1,5 +1,4 @@
-import './screens/Dashboard/App.css'
-import Router from "./router/Router"
+import Router from "./router/router"
 import { RouterProvider } from "react-router-dom"
 
 function App() {
