@@ -4,7 +4,7 @@
 }
 
 body {
-  background-color: #5a2ba5;
+  background-color: #7e57be;
 }
 
 .logo{
@@ -13,19 +13,19 @@ body {
 }
 
 #login-form {
-  height: 70vh;
+  height: 50vh;
   width: 60vw;
   position: absolute;
   border: 1px solid white;
   background-color: rgb(245, 240, 240);
   transform: translate(-50%, -50%);
-  top: 50%;
+  top: 10%;
   left: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border-radius: 15px;
+  border-radius: 1px;
   box-shadow: 11px 21px 29px -8px rgba(0, 0, 0, 0.75);
 }
 
