@@ -14,13 +14,13 @@ Um aplicativo de gestão que engloba tarefas diárias realizadas em farmácias.
   Este projeto tem como objetivo desenvolver um sistema abrangente de gerenciamento de pedidos, especialmente voltado para farmácias de pequeno porte que não têm recursos para investir em sistemas muito robustos e de alto valor. O sistema proporcionará funcionalidades abrangentes para gerir pedidos, produtos, clientes e fornecedores, visando aprimorar a eficiência e organização das operações dessas farmácias, permitindo uma gestão mais acessível e econômica.
 
 ### Estrutura do Projeto:
-Tela de Login de Usuários
+Tela de Login de Usuários<br /> 
   Função: Permitir que os usuários façam login no sistema.
 
-Tela de Cadastro de Usuários
+Tela de Cadastro de Usuários<br /> 
   Função: Permitir o cadastro de novos usuários no sistema.
 
-Tela de Gerenciamento de Pedidos
+Tela de Gerenciamento de Pedidos<br /> 
   Funções:
   Editar pedidos existentes.
   Adicionar novos pedidos.
@@ -31,7 +31,7 @@ Tela de Gerenciamento de Pedidos
   Produto.
   Quantidade.
 
-Tela de Gerenciamento de Produtos
+Tela de Gerenciamento de Produtos<br /> 
   Funções:
   Editar produtos existentes.
   Adicionar novos produtos.
@@ -42,7 +42,7 @@ Tela de Gerenciamento de Produtos
   Valor.
   Quantidade em estoque.
 
-Tela de Gerenciamento de Clientes
+Tela de Gerenciamento de Clientes<br /> 
   Funções:
   Editar informações de clientes.
   A dicionar novos clientes.
