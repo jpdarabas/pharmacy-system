@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Button, TextField, Paper, Typography, Grid, Link } from '@mui/material';
+import { Button, TextField, Typography, Grid, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import './index.css';
-import LogoSvg from "../../assets/logo.png";
+import LogoSvg from '../../assets/logo.png';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -12,18 +11,19 @@ export default function Login() {
   const handleLoginInButton = () => {
     if (username && password) {
       // Simulate successful authentication
-      navigate('/');
+      // Navegar para a rota /dashboard após o login bem-sucedido
+      navigate('/dashboard');
     } else {
-      alert('Please fill in the username and password fields.');
+      alert('Por favor, preencha os campos de usuário e senha.');
     }
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-      <Paper elevation={3} style={{ padding: '20px' }}>
+    <Grid container justifyContent="center" alignItems="center" className="h-screen">
+      <div className="bg-purple-500 p-8 rounded-lg shadow-md">
         <Grid container spacing={2} direction="column" alignItems="center">
           <Grid item>
-            <img src={LogoSvg} alt="Logo" /> {/* Display the logo */}
+            <img src={LogoSvg} alt="Logo" className="w-32 h-32" />
           </Grid>
           <Grid item>
             <Typography variant="h5">Login</Typography>
@@ -34,6 +34,7 @@ export default function Login() {
               label="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              className="custom-textfield"
             />
           </Grid>
           <Grid item>
@@ -42,6 +43,7 @@ export default function Login() {
               label="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="custom-textfield"
             />
           </Grid>
           <Grid item>
@@ -55,7 +57,7 @@ export default function Login() {
             </Link>
           </Grid>
         </Grid>
-      </Paper>
+      </div>
     </Grid>
   );
 }
