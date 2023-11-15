@@ -1,24 +1,31 @@
 import { Link } from "react-router-dom";
+import LogoSvg from "../../assets/logo.png";
 
-export default function Dashboard() {
+const Dashboard = () => {
   return (
-    <>
-      <h2 className="mb-5 text-3xl font-semibold text-gray-700">Seja bem-vindo a Tela Principal do farma facil!</h2>
-
+    <div className="flex flex-col items-center justify-center h-screen" >
+      <div className="text-center mb-8">
+        <img src={LogoSvg} alt="Logo" className="w-32 h-32 mx-auto" />
+      </div>
+      <h2>
+        Bem-vindo ao Farma Fácil!
+      </h2>
       <div className="my-6">
         <Link
           to="/order"
-          className="inline-flex rounded-md bg-gray-100 p-4 text-base font-semibold hover:bg-gray-200 md:text-lg">
+        >
           Ir para Pedidos
         </Link>
       </div>
       <div className="my-6">
-      <Link
-        to="/stock"
-        className="inline-flex rounded-md bg-gray-100 p-4 text-base font-semibold hover:bg-gray-200 md:text-lg">
-          Ir para estoque
+        <Link
+          to="/stock"
+        >
+          Ir para Estoque
         </Link>
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default Dashboard;
