@@ -5,8 +5,7 @@ import LogoSvg from "../../assets/logo_png.png";
 const Sidebar = () => {
   return (
     <div className="bg-purple-500 text-white h-screen w-48 fixed left-0 top-0 p-4 ">
-      <img src={LogoSvg} alt="Logo" className="w-42 h-42 mx-auto" />
-      <h2 className="text-center text-lg font-semibold mb-4">Bem-vindo ao Farma Fácil!</h2>
+      <img src={LogoSvg} alt="Logo" className="w-50 h-45 mx-auto" />
       <div className="my-2">
         <Link to="/dashboard" className="block p-2 hover:bg-purple-400 transition duration-300 rounded-md">Home</Link>
       </div>
