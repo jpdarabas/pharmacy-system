@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "build:styles": "tailwindcss build styles.css -o output.css"
+    "build:styles": "tailwindcss build style.css -o output.css"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -25,6 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.16",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",

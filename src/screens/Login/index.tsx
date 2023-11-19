@@ -33,28 +33,45 @@ export default function Login() {
   };
 
   return (
-    <div style={loginStyle}>
-      <img src={LogoSvg} alt="Logo" />
-
-      <TextField
-        type="text"
-        label="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="custom-textfield"
-      />
-
-      <TextField
-        type="password"
-        label="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="custom-textfield"
-      />
-
-      <Button variant="contained" color="primary" onClick={handleLoginInButton}>
-        Login
-      </Button>
-    </div>
+    <Grid container justifyContent="center" alignItems="center" className="h-screen bg-purple-500">
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <Grid container spacing={2} direction="column" alignItems="center">
+          <Grid item>
+            <img src={LogoSvg} alt="Logo" className="w-42 h-42" />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Login</Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              type="text"
+              label="Usuário"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="custom-textfield "
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              type="password"
+              label="Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="custom-textfield"
+            />
+          </Grid>
+          <Grid item>
+            <Button variant="contained" color="primary" onClick={handleLoginInButton}>
+              Entrar
+            </Button>
+          </Grid>
+          <Grid item>
+            <Link href="#" variant="body2">
+              Esqueceu sua senha?
+            </Link>
+          </Grid>
+        </Grid>
+      </div>
+    </Grid>
   );
 }
