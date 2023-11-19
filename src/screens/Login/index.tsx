@@ -18,8 +18,8 @@ export default function Login() {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" className="h-screen">
-      <div className="bg-purple-400 p-8 rounded-lg shadow-md">
+    <Grid container justifyContent="center" alignItems="center" className="h-screen"style={{ backgroundColor: 'rgb(178, 178, 242)' }} >
+      <div className="bg-violet-200 p-8 rounded-lg shadow-md">
         <Grid container spacing={2} direction="column" alignItems="center">
           <Grid item>
             <img src={LogoPng} alt="Logo" className="w-32 h-32" />
