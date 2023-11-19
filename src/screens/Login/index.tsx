@@ -24,12 +24,12 @@ export default function Login() {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    minHeight: '100vh',
+    minHeight: '97vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '20px',
+    padding: '3px',
   };
 
   return (
