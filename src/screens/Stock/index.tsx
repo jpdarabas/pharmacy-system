@@ -6,7 +6,7 @@ interface StockProps {
 
 const Dashboard: React.FC<StockProps> = () => {
   return (
-    <div>
+    <div className='ml-48'>
       <h1>Olá, você está na tela de estoque e cadastro!</h1>
       {/* Adicione qualquer conteúdo adicional que você queira exibir no dashboard */}
     </div>

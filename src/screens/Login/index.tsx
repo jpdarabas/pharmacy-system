@@ -19,11 +19,11 @@ export default function Login() {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" className="h-screen">
-      <div className="bg-purple-500 p-8 rounded-lg shadow-md">
+    <Grid container justifyContent="center" alignItems="center" className="h-screen bg-purple-500">
+      <div className="bg-white p-8 rounded-lg shadow-md">
         <Grid container spacing={2} direction="column" alignItems="center">
           <Grid item>
-            <img src={LogoSvg} alt="Logo" className="w-32 h-32" />
+            <img src={LogoSvg} alt="Logo" className="w-42 h-42" />
           </Grid>
           <Grid item>
             <Typography variant="h5">Login</Typography>
@@ -31,16 +31,16 @@ export default function Login() {
           <Grid item>
             <TextField
               type="text"
-              label="Username"
+              label="Usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="custom-textfield"
+              className="custom-textfield "
             />
           </Grid>
           <Grid item>
             <TextField
               type="password"
-              label="Password"
+              label="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="custom-textfield"
@@ -48,12 +48,12 @@ export default function Login() {
           </Grid>
           <Grid item>
             <Button variant="contained" color="primary" onClick={handleLoginInButton}>
-              Login
+              Entrar
             </Button>
           </Grid>
           <Grid item>
             <Link href="#" variant="body2">
-              Forgot password?
+              Esqueceu sua senha?
             </Link>
           </Grid>
         </Grid>
