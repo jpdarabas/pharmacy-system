@@ -1,4 +1,3 @@
-import React from 'react';
 import backgroundImage from '../../assets/farma_fundo.png'; 
 
 const Dashboard = () => {
@@ -10,7 +9,7 @@ const Dashboard = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'white', 
+    color: 'black', 
     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', 
   };
 
