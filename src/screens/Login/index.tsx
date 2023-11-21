@@ -10,7 +10,6 @@ export default function Login() {
 
   const handleLoginInButton = () => {
     if (username && password) {
-
       navigate('/dashboard');
     } else {
       alert('Por favor, preencha os campos de usuário e senha.');
