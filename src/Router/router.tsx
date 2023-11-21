@@ -5,6 +5,7 @@ import Order from "../screens/Order";
 import Stock from "../screens/Stock";
 import Sidebar from "../screens/Sidebar";
 
+
 const Router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
