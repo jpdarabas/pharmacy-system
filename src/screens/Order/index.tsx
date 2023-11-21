@@ -53,7 +53,7 @@ const TeladePedidos: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className='ml-42'>
       <h1>Tela de Pedidos</h1>
       <ul>
         {state.orders.map((order) => (
