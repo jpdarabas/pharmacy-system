@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, TextField, Typography, Grid, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LogoPng from '../../assets/logo_png.png';
+import backgroundImage from '../../assets/farma_fundo.png';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -17,8 +18,8 @@ export default function Login() {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" className="h-screen"style={{ backgroundColor: 'rgb(178, 178, 242)' }} >
-      <div className="bg-violet-200 p-8 rounded-lg shadow-md">
+    <Grid container justifyContent="center" alignItems="center" className="h-screen"style={{backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', }} >
+      <div className="bg-white p-8 rounded-lg shadow-md">
         <Grid container spacing={2} direction="column" alignItems="center">
           <Grid item>
             <img src={LogoPng} alt="Logo" className="w-32 h-32" />
