@@ -3,7 +3,7 @@ import Login from "../screens/Login";
 import Dashboard from "../screens/Dashboard";
 import Order from "../screens/Order";
 import Stock from "../screens/Stock";
-import Sidebar from "../screens/Sidebar";
+import Sidebar from "../components/Sidebar/index.tsx";
 
 
 const Router = createBrowserRouter(
@@ -17,13 +17,13 @@ const Router = createBrowserRouter(
             </div>
         } />
         <Route path="/order" element={
-            <div>
+            <div className="pl-64 py-32">
                 <Sidebar/>
                 <Order />
             </div>
         } />
         <Route path="/stock" element={
-            <div>
+            <div className="pl-64 py-32">
                 <Sidebar/>
                 <Stock />
             </div>

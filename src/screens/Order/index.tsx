@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import TableHead from "../../components/TableHead/index.tsx";
+import TableItem from "../../components/TableItem/index.tsx";
+
+
 
 // Definindo o tipo para os itens de pedido
 interface OrderItem {
@@ -53,41 +57,39 @@ const TeladePedidos: React.FC = () => {
   };
 
   return (
-    <div className='ml-42'>
-      <h1>Tela de Pedidos</h1>
-      <ul>
-        {state.orders.map((order) => (
-          <li key={order.id}>
-            {order.product} - Quantidade: {order.quantity}
-            <button onClick={() => removeOrder(order.id)}>Remover</button>
-            <input
-              type="number"
-              value={order.quantity}
-              onChange={(e) => updateOrderQuantity(order.id, parseInt(e.target.value))}
-            />
-          </li>
-        ))}
-      </ul>
+    <div>
+      <h1>Olá, você está na tela de pedidos!</h1>
+      {/* Adicione qualquer conteúdo adicional que você queira exibir no dashboard */}
+      <br></br>
+      <br></br>
+      <br></br>
       <div>
-        <h2>Adicionar Novo Pedido</h2>
-        <label>
-          Produto:
-          <input
-            type="text"
-            value={state.newOrderProduct}
-            onChange={(e) => setState({ ...state, newOrderProduct: e.target.value })}
-          />
-        </label>
-        <label>
-          Quantidade:
-          <input
-            type="number"
-            value={state.newOrderQuantity}
-            onChange={(e) => setState({ ...state, newOrderQuantity: parseInt(e.target.value) })}
-          />
-        </label>
-        <button onClick={addOrder}>Adicionar Pedido</button>
-      </div>
+          <TableHead 
+          head_1='Número' 
+          head_2='Cliente' 
+          head_3='Produto' 
+          head_4='Total'
+          add= {<button><span className="material-symbols-outlined">
+          add</span></button>} >
+
+{/* {orders.map((order) => (
+        
+        <TableItem
+        item_1={order.name}
+        item_2={order.category}
+        item_3={order.value}
+        item_4={order.stock}>
+          <button className='mx-3'>
+            <span className="material-symbols-outlined">edit</span>
+          </button> 
+          <button className='mx-3'>
+          <span className="material-symbols-outlined">delete</span>
+          </button>
+        </TableItem>
+
+      ))} */}
+          </TableHead>
+        </div>
     </div>
   );
 };
