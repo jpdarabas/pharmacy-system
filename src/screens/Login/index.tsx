@@ -9,13 +9,17 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLoginInButton = () => {
+  const LoginInButton = () => {
     if (username && password) {
       navigate('/dashboard');
     } else {
       alert('Por favor, preencha os campos de usuário e senha.');
     }
   };
+
+  const EsqueceuSenha = () => {
+    alert('Tela em construção!');  
+  }
 
   return (
     <Grid container justifyContent="center" alignItems="center" className="h-screen"style={{backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', }} >
@@ -46,12 +50,12 @@ export default function Login() {
             />
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleLoginInButton}>
+            <Button variant="contained" color="primary" onClick={LoginInButton}>
               Login
             </Button>
           </Grid>
           <Grid item>
-            <Link href="#" variant="body2">
+            <Link href="#" variant="body2" onClick= {EsqueceuSenha}>
               Esqueceu a senha?
             </Link>
           </Grid>
