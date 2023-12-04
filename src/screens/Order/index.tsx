@@ -65,13 +65,26 @@ const TeladePedidos: React.FC = () => {
       <br></br>
       <div>
           <TableHead 
-          head_1='Número' 
+          head_1='ID' 
           head_2='Cliente' 
           head_3='Produto' 
-          head_4='Total'
+          head_4='Quantidade'
+          head_5='Total'
           add= {<button><span className="material-symbols-outlined">
           add</span></button>} >
-
+          <TableItem
+        item_1={'#'+1}        
+        item_2='Fulano'
+        item_3='Dipirona'
+        item_4={''+2}
+        item_5={''+10}
+        >
+          <button className='mx-3'>
+            <span className="material-symbols-outlined">edit</span>
+          </button> 
+          <button className='mx-3'>
+          <span className="material-symbols-outlined">delete</span>
+          </button></TableItem>
 {/* {orders.map((order) => (
         
         <TableItem
