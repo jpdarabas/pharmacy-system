@@ -64,7 +64,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const styles: React.CSSProperties = {
-    backgroundColor: 'rgb(230, 230, 250)',
+    backgroundColor: 'rgb(255, 255, 255)',
     backgroundPosition: 'center',
     height: '100vh',
     display: 'flex',
