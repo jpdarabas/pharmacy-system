@@ -1,7 +1,7 @@
 import React from 'react';
 import TableHead from "../../components/TableHead/index.tsx";
 import TableItem from "../../components/TableItem/index.tsx";
-import { useOrders, AddButton } from "../../components/Orders/index.tsx";
+import { useOrders, AddButton, DeleteButton } from "../../components/Orders/index.tsx";
 
 // Componente da tela de pedidos
 const TeladePedidos: React.FC = () => {
@@ -31,6 +31,7 @@ const TeladePedidos: React.FC = () => {
         item_3={order.product}
         item_4={''+order.quantity}
         item_5={`R\$${order.total}`}>
+        <DeleteButton id={'' + order.id}></DeleteButton>
         </TableItem>
 
       ))}

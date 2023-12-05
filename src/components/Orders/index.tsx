@@ -14,6 +14,7 @@ interface Orders {
 interface OrdersContextProps {
     orders: Orders[];
     addOrder: (newProduct: Orders) => void;
+    updateOrder: (updatedOrders: Orders[]) => void;
 }
 
 
@@ -29,9 +30,12 @@ export const OrdersProvider: React.FC<OrdersProviderProps> = ({ children }) => {
   const addOrder = (newOrder: Orders) => {
     setOrders([...orders, newOrder]);
   };
+  const updateOrder = (updatedOrders: Orders[]) => {
+    setOrders(updatedOrders)
+    };
 
   return (
-    <OrdersContext.Provider value={{ orders, addOrder }}>
+    <OrdersContext.Provider value={{ orders, addOrder, updateOrder }}>
       {children}
     </OrdersContext.Provider>
   );
@@ -179,3 +183,32 @@ export const AddButton: React.FC = () => {
     </div>
     );
     };
+
+    
+interface DeleteButtonProps {
+  id: string;
+}
+export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
+
+  const { orders, updateOrder } = useOrders();
+
+  const DeleteOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    let index = orders.findIndex(order => order.id.toString() === id);
+
+    let updatedOrders = [...orders];
+
+    if (index !== -1) {
+      updatedOrders.splice(index, 1);
+    }
+    updateOrder(updatedOrders);
+  };
+
+  return (
+    <div>
+      <button id={id} onClick={DeleteOrder}><span className="material-symbols-outlined">
+        delete</span></button>
+    </div>
+  );
+};
