@@ -55,7 +55,7 @@ export const useOrders = () => {
 export const AddButton: React.FC = () => {
 
     const { orders, addOrder } = useOrders();
-    const { products } = useProducts();
+    const { products, updateProduct } = useProducts();
 
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -87,9 +87,13 @@ export const AddButton: React.FC = () => {
 
         const total = (parseInt((selectedProduct.value * 100 * quantity).toFixed(0), 10))/100;
 
-        let updatedProducts = products.find(product => product.name === productName? product.stock -= quantity: product.stock)
+        
+        let updatedProducts = [...products]
+        let index = products.findIndex(product => product.name === productName);
+        
+        updatedProducts[index].stock -= quantity;
 
-        console.log(updatedProducts)
+        updateProduct(updatedProducts)
         if (!customer || !productName || quantity <= 0 || total <= 0) {
             alert('Preencha todos os campos obrigatórios.');
             return;
