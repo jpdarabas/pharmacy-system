@@ -16,13 +16,13 @@ const Router = createBrowserRouter(
                 </div>
             } />
             <Route path="/order" element={
-                <div className="pl-64 py-32">
+                <div className="pl-64 py-16">
                     <Sidebar/>
                     <Order />
                 </div>
             } />
             <Route path="/stock" element={
-                <div className="pl-64 py-32">
+                <div className="pl-64 py-16">
                     <Sidebar/>
                     <Stock />
                 </div>
