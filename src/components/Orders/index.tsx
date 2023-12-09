@@ -62,6 +62,7 @@ export const AddButton: React.FC = () => {
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);;
     
+    // Função do onSubmit
     const AddOrder = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -87,7 +88,7 @@ export const AddButton: React.FC = () => {
 
         const total = (parseInt((selectedProduct.value * 100 * quantity).toFixed(0), 10))/100;
 
-        
+        // Tirando a quantidade do produto no pedido do estoque
         let updatedProducts = [...products]
         let index = products.findIndex(product => product.name === productName);
         
@@ -195,14 +196,22 @@ interface DeleteButtonProps {
 export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
 
   const { orders, updateOrder } = useOrders();
+  const { products, updateProduct } = useProducts();
 
+  // Função do onClick
   const DeleteOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    let index = orders.findIndex(order => order.id.toString() === id);
+    const index = orders.findIndex(order => order.id.toString() === id);
 
-    let updatedOrders = [...orders];
+    const updatedOrders = [...orders];
 
+    // Devolvendo a quantidade do pedido ao estoque
+    const updatedProducts = [...products];
+    const Pindex = products.findIndex(product => product.name === orders[index].product);
+    updatedProducts[Pindex].stock += orders[index].quantity;
+
+    updateProduct(updatedProducts);
     if (index !== -1) {
       updatedOrders.splice(index, 1);
     }

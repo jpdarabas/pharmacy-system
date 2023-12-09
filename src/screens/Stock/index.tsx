@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TableHead from "../../components/TableHead/index.tsx";
 import TableItem from "../../components/TableItem/index.tsx";
+import Search from "../../components/Search/index.tsx";
 import { useProducts, AddButton, UpdateButton, DeleteButton } from "../../components/Products/index.tsx";
 
 
@@ -20,21 +21,8 @@ const Stock: React.FC = () => {
   return (
     <div>
       <h1 className="max-w-lg text-3xl font-semibold leading-normal text-gray-900 ">Estoque</h1>
-      {/* Adicione qualquer conteúdo adicional que você queira exibir no dashboard */}
       <br></br>
-      <div className="relative">
-  <input
-    type="text"
-    defaultValue=''
-    placeholder="Buscar produto"
-    onChange={SearchChange}
-    className="p-2 pl-8 border border-gray-300 rounded-md focus:outline-none focus:border-blue-300"
-  />
-  <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-    <span className="material-symbols-outlined text-gray-500">search</span>
-  </span>
-</div>
-      <br></br>
+      <Search searchChange={SearchChange} placeHolder='Buscar produto'></Search>
       <br></br>
       <div>
           <TableHead 
