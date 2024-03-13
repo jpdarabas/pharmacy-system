@@ -38,7 +38,7 @@ const Stock: React.FC = () => {
             item_1={'#'+product.id}
             item_2={product.name}
             item_3={product.category}
-            item_4={`R\$${product.value}`}
+            item_4={`R$${product.value}`}
             item_5={product.stock.toString()}>
               <UpdateButton id={''+product.id}></UpdateButton>
               <DeleteButton id={''+product.id}></DeleteButton>

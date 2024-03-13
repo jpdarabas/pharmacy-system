@@ -38,7 +38,7 @@ const TeladePedidos: React.FC = () => {
         item_2={order.customer}
         item_3={order.product}
         item_4={''+order.quantity}
-        item_5={`R\$${order.total}`}>
+        item_5={`R$${order.total}`}>
         <DeleteButton id={'' + order.id}></DeleteButton>
         </TableItem>
 

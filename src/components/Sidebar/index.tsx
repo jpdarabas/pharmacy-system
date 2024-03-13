@@ -14,6 +14,8 @@ const Sidebar = () => {
       </div>
       <div className="my-2">
         <Link to="/stock" className="block p-2 hover:bg-purple-400 transition duration-300 rounded-md">Estoque</Link>
+      </div><div className="my-2">
+        <Link to="/customer" className="block p-2 hover:bg-purple-400 transition duration-300 rounded-md">Clientes</Link>
       </div>
       <div id="oi" className="absolute bottom-0 right-0 my-2 mx-4">
       <Link to="/" className="block p-2 hover:bg-purple-400 transition duration-300 rounded-md">Sair</Link>

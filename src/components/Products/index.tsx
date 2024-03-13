@@ -42,6 +42,7 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProducts = () => {
   const context = useContext(ProductsContext);
   if (!context) {
@@ -130,7 +131,7 @@ export const AddButton: React.FC = () => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);;
+    const closeModal = () => setModalOpen(false);
 
     const AddProduct = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -193,12 +194,12 @@ export const UpdateButton: React.FC<UpdateButtonProps> = ({id}) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);;
+    const closeModal = () => setModalOpen(false);
 
     
-    let index = products.findIndex(product => product.id.toString() === id);
+    const index = products.findIndex(product => product.id.toString() === id);
 
-    let updatedProducts = [...products];
+    const updatedProducts = [...products];
 
     const UpdateProduct = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -255,9 +256,9 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({id}) => {
     const DeleteProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        let index = products.findIndex(product => product.id.toString() === id);
+        const index = products.findIndex(product => product.id.toString() === id);
 
-        let updatedProducts = [...products];
+        const updatedProducts = [...products];
 
         if (index !== -1) {
             updatedProducts.splice(index, 1);
