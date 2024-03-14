@@ -15,7 +15,7 @@ const Customer: React.FC = () => {
   const SearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchItem(e.target.value.toLowerCase())
   };
-    
+  
   return (
     <div>
       <h1 className="max-w-lg text-3xl font-semibold leading-normal text-gray-900 ">Clientes</h1>
@@ -28,16 +28,18 @@ const Customer: React.FC = () => {
           head_2='Nome' 
           head_3='E-mail' 
           head_4='Telefone'
-          head_5=''
+          head_5='CPF'
           add= {<AddButton></AddButton>} >
             {(customers.filter(customer =>
-            customer.name.toLowerCase().includes(SearchItem))).map((customer) => (
+            customer.name.toLowerCase().includes(SearchItem) || 
+            customer.email.toLowerCase().includes(SearchItem)|| 
+            customer.cpf.toLowerCase().includes(SearchItem))).map((customer) => (
                   <TableItem
                   item_1={'#'+customer.id}
                   item_2={customer.name}
                   item_3={customer.email}
                   item_4={customer.number}
-                  item_5={''}>
+                  item_5={customer.cpf}>
                     <UpdateButton id={''+customer.id}></UpdateButton>
                     <DeleteButton id={''+customer.id}></DeleteButton>
                   </TableItem>

@@ -7,6 +7,7 @@ interface Customer {
     name: string;
     email: string;
     number: string;
+    cpf: string;
   }
 
 
@@ -78,21 +79,30 @@ const Modal: React.FC<ModalProps> = ({add, close, customer, title}) => {
             E-mail:
             </label>
             <input 
-            type="text" 
+            type="email" 
             id="email" 
             name="email"
             defaultValue={customer ? customer.email : ''}
             className="w-full border p-2 rounded mb-4"/>
             <br />
-            <label htmlFor="value" className="block mb-2">
+            <label htmlFor="number" className="block mb-2">
             Telefone:
             </label>
             <input 
             type="text"
-            pattern="[0-9]+([,\.][0-9]+)?"
             id="number" 
             name="number"
+            pattern="^\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}$"
             defaultValue={customer ? customer.number : ''}
+            className="w-full border p-2 rounded mb-4"/><br />
+            <label htmlFor="cpf" className="block mb-2">
+            CPF:
+            </label>
+            <input 
+            type="text"
+            id="cpf" 
+            name="cpf"
+            defaultValue={customer ? customer.cpf : ''}
             className="w-full border p-2 rounded mb-4"/>
             <br />
             <div>
@@ -132,15 +142,17 @@ export const AddButton: React.FC = () => {
         const name = formData.get("name") as string;
         const email = formData.get("email") as string;
         const number = formData.get("number") as string;
+        const cpf = formData.get("cpf") as string;
+
         
-        if (!name || !email || !number) {
+        if (!name || !email || !number || !cpf) {
         alert('Preencha todos os campos obrigatórios.');
         return;
         }
         
         if (customers.find(customer =>
             customer.name.toLowerCase().includes(name.toLowerCase()))) {
-                alert(`O produto ${name} já foi inserido.`);
+                alert(`O cliente ${name} já foi inserido.`);
                 return;
             }
 
@@ -149,6 +161,7 @@ export const AddButton: React.FC = () => {
         name: name,
         email: email,
         number: number,
+        cpf: cpf
         };
 
         addCustomer(newCustomer);
@@ -161,7 +174,7 @@ return (
         add</span></button>
 
     {isModalOpen && (
-        <Modal title='Adicionar produto' add={AddCustomer} close={closeModal} customer={null}></Modal>
+        <Modal title='Adicionar cliente' add={AddCustomer} close={closeModal} customer={null}></Modal>
     )}
 </div>
 );
@@ -192,14 +205,15 @@ export const UpdateButton: React.FC<UpdateButtonProps> = ({id}) => {
         const formData = new FormData(form)
 
         const name = formData.get("name");
-        const email = formData.get("category");
-        const number = formData.get("value");
+        const email = formData.get("email");
+        const number = formData.get("number");
+        const cpf = formData.get("cpf");
 
         
         
-        if (!name || !email || !number) {
-        alert('Preencha todos os campos obrigatórios.');
-        return;
+        if (!name || !email || !number || !cpf) {
+          alert('Preencha todos os campos obrigatórios.');
+          return;
         }
 
         const newCustomer = {
@@ -207,6 +221,7 @@ export const UpdateButton: React.FC<UpdateButtonProps> = ({id}) => {
         name: name as string,
         email: email as string,
         number: number as string,
+        cpf: cpf as string
         };
 
         updatedCustomers[index] = newCustomer

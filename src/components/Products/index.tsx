@@ -216,8 +216,8 @@ export const UpdateButton: React.FC<UpdateButtonProps> = ({id}) => {
         const numericValue = value ? parseFloat(Number(value.toString().replace(",", ".")).toFixed(2)) : -1;
         
         if (!name || !category || numericValue <= 0 || stock < 0) {
-        alert('Preencha todos os campos obrigatórios.');
-        return;
+          alert('Preencha todos os campos obrigatórios.');
+          return;
         }
 
         const newProduct = {
@@ -234,16 +234,16 @@ export const UpdateButton: React.FC<UpdateButtonProps> = ({id}) => {
         setModalOpen(false);
     };
 
-return (
-<div>
-    <button id={id} onClick={openModal}><span className="material-symbols-outlined">
-        edit</span></button>
+  return (
+  <div>
+      <button id={id} onClick={openModal}><span className="material-symbols-outlined">
+          edit</span></button>
 
-    {isModalOpen && (
-        <Modal title='Editar produto'  add={UpdateProduct} close={closeModal} product={updatedProducts[index]}></Modal>
-    )}
-</div>
-);
+      {isModalOpen && (
+          <Modal title='Editar produto'  add={UpdateProduct} close={closeModal} product={updatedProducts[index]}></Modal>
+      )}
+  </div>
+  );
 };
 
 interface DeleteButtonProps {
