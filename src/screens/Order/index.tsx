@@ -7,7 +7,6 @@ import { useOrders, AddButton, DeleteButton } from "../../components/Orders/inde
 // Componente da tela de pedidos
 const TeladePedidos: React.FC = () => {
  
-  
   const { orders } = useOrders()
 
   const [SearchItem, setSearchItem] = useState('')
@@ -36,8 +35,8 @@ const TeladePedidos: React.FC = () => {
         <TableItem
         item_1={'#'+order.id}
         item_2={order.customer}
-        item_3={order.product}
-        item_4={''+order.quantity}
+        item_3={order.product} // Colocar um botao
+        item_4={''+order.quantities.reduce((accumulator, currentValue) => accumulator + currentValue, 0)} // somar quantities
         item_5={`R$${order.total}`}>
         <DeleteButton id={'' + order.id}></DeleteButton>
         </TableItem>

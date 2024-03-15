@@ -1,13 +1,15 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { ReactNode, createContext, useState, useContext } from 'react';
 import { useProducts } from "../Products/index.tsx";
+import { useCustomers } from "../Customers/index.tsx";
 
 
 interface Orders {
     id: number;
     customer: string;
-    product: string;
-    quantity: number;
-    total: number;
+    products: Array<string>;
+    quantities: Array<number>;
+    total: Array<number>;
   }
 
 
@@ -56,12 +58,16 @@ export const AddButton: React.FC = () => {
 
     const { orders, addOrder } = useOrders();
     const { products, updateProduct } = useProducts();
+    const { customers } = useCustomers();
 
     const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);;
+    const closeModal = () => setModalOpen(false);
     
+    const [orderProducts, setOrderProducts] = useState([{id: 1, name:'', quantity:1, total:0}])
+
+
     // Função do onSubmit
     const AddOrder = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -89,8 +95,8 @@ export const AddButton: React.FC = () => {
         const total = (parseInt((selectedProduct.value * 100 * quantity).toFixed(0), 10))/100;
 
         // Tirando a quantidade do produto no pedido do estoque
-        let updatedProducts = [...products]
-        let index = products.findIndex(product => product.name === productName);
+        const updatedProducts = [...products]
+        const index = products.findIndex(product => product.name === productName);
         
         updatedProducts[index].stock -= quantity;
 
@@ -103,9 +109,9 @@ export const AddButton: React.FC = () => {
         const newOrder = {
             id: id,
             customer: customer as string,
-            product: productName as string,
-            quantity: quantity,
-            total: total,
+            products: orderProducts.map(({ name }) => name),
+            quantities: orderProducts.map(({ quantity }) => quantity),
+            total: orderProducts.map(({ total }) => total),
         };
 
         addOrder(newOrder);
@@ -113,67 +119,145 @@ export const AddButton: React.FC = () => {
     };
 
     
-    const [SearchItem, setSearchItem] = useState('')
+    const [SearchItems, setSearchItem] = useState([{id: 1, name:''}])
         
-    const SearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchItem(e.target.value.toLowerCase())
+    const ProductSearchChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+        const updatedSearchItem = [...SearchItems]
+        updatedSearchItem.find(item => item.id === id).name = e.target.value.toLowerCase();
+        setSearchItem(updatedSearchItem)
+
       };
+
+    const ProductChange = (e: React.ChangeEvent<HTMLSelectElement>, id: number) => {
+      const updatedProducts = [...orderProducts];
+      updatedProducts.find(item => item.id === id).name = e.target.value.toLowerCase();
+      setOrderProducts(updatedProducts);
+
+    }
+
+    const [SearchCustomer, setSearchCustomer] = useState('')
+
+    const CustomerSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchCustomer(e.target.value.toLowerCase())
+    };
+
+    const AddProduct = () => {
+        setOrderProducts([...orderProducts, {id:orderProducts[orderProducts.length - 1].id + 1, name:'', quantity:1, total:0}])
+        setSearchItem([...SearchItems, {id:SearchItems[SearchItems.length - 1].id + 1, name:''}])
+    }
+
+
+    const QuantitiesChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+      const updatedProducts = [...orderProducts];
+      const qtt = Number(e.target.value)
+
+      updatedProducts.find(item => item.id === id).quantity = qtt;
+      console.log(updatedProducts)
+      const productName = updatedProducts.find(item => item.id === id).name
+
+
+      const selectedProduct = products.find(product => product.name === productName);
+
+      if (!selectedProduct) {
+          alert(`Produto com nome ${productName} não encontrado.`);
+        }
+      if (selectedProduct.stock < qtt) {
+          alert('Quantidade maior do que a disponível do estoque.');
+      }
+
+      const total = (parseInt((selectedProduct.value * 100 * qtt).toFixed(0), 10))/100;
+
+      updatedProducts.find(item => item.id === id).total = total
+
+      setOrderProducts(updatedProducts);
+    };
 
     return (
     <div>
-        <button onClick={openModal}><span className="material-symbols-outlined">
+        <button onClick={openModal}><span className="material-symbols-outlined hover:animate-spin">
             add</span></button>
 
         {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
             <div className="modal bg-white p-8 rounded">
-            <h2 className="text-2xl font-bold mb-4">Adicionar Produto</h2>
+            <h2 className="text-2xl font-bold mb-4">Adicionar Pedido</h2>
+            {/* FORM */}
             <form onSubmit={AddOrder}>
+                {/* CUSTOMER */}
                 <label htmlFor="customer" className="block mb-2">
                 Cliente:
                 </label>
-                <input 
-                type="text" 
-                id="customer" 
-                name="customer"
-                className="w-full border p-2 rounded mb-4"/>
+                <div className='flex'>
+                  <input 
+                  type="text" 
+                  onChange={CustomerSearchChange}
+                  placeholder="Buscar cliente"
+                  className="w-full border p-2 rounded mb-4"/>
+                  {/* SELECT CUSTOMER */}
+                  <select id="customer" name="customer"
+                      className="w-full border p-2 rounded mb-4">
+                          {
+                              ([{name:'Não Informado'}, ...customers.filter(customer =>
+                                customer.name.toLowerCase().includes(SearchCustomer))]).map(customer => 
+                          <option value={customer.name}>{customer.name}</option>)
+                          }
+                      </select>
+                </div>
                 <br />
+                {/* PRODUCTS */}
                 <label htmlFor="product" className="block mb-2">
                 Produto:
                 </label>
-                <div className='flex'>
+                {orderProducts.map((orderProduct) => (<div className='flex'>
+                    {/* SEARCH PRODUCT */}
                     <input
                     type="text"
-                    defaultValue=''
-                    onChange={SearchChange}
+                    defaultValue={orderProduct.name}
+                    onChange={(e) => ProductSearchChange(e, orderProduct.id)}
                     placeholder="Buscar produto"
-                    className="w-full border p-2 rounded mb-4 mr-2"
-                />
-                    <select id="product" name="product"
+                    className="w-full border p-2 rounded mb-4 mr-2"/>
+                    {/* SELECT PRODUCT */}
+                    <select id="product" 
+                    name="product"
+                    onChange={(e) => ProductChange(e, orderProduct.id)}
                     className="w-full border p-2 rounded mb-4">
+                    {isSelected && <option value="" disabled selected hidden>Selecione um produto</option>}
                         {
                             (products.filter(product =>
-                                product.name.toLowerCase().includes(SearchItem))).map(product => 
+                                product.name.toLowerCase().includes(SearchItems.find(item => item.id === orderProduct.id).name))).map(product => 
                         <option value={product.name}>{product.name}</option>)
                         }
                     </select>
+                    {/* QUANTITY */}
+                    <input 
+                    type="number"
+                    id="quantity" 
+                    name="quantity"
+                    onChange={(e) => QuantitiesChange(e, orderProduct.id)}
+                    placeholder="Quantidade"
+                    className="w-full border p-2 rounded mb-4"/>
+                    {/* VALUES */}
+                    <div className="w-full border p-2 rounded mb-4">
+                      Valor: {orderProduct.total}
+                    </div>
+                    {/* ADD PRODUCT BUTTON */}
+                    <button 
+                    type="button"
+                    className="border  rounded px-1 mb-4 mr-1 material-symbols-outlined hover:bg-slate-200"
+                    onClick={AddProduct}>
+                    add
+                    </button>
                 </div>
-                <br />
-                <label htmlFor="quantity" className="block mb-2">
-                Quantidade:
-                </label>
-                <input 
-                type="text"
-                id="quantity" 
-                name="quantity"
-                className="w-full border p-2 rounded mb-4"/>
+                ))}
                 <br />
                 <div>
+                    {/* ADD BUTTON */}
                 <button 
                     type="submit"
                     className="mx-2 bg-green-600 text-white px-4 py-2 rounded">
                     Adicionar 
                     </button>
+                    {/* CANCEL BUTTON */}
                 <button
                     type="button"
                     onClick={closeModal}

@@ -9,7 +9,6 @@ import { useProducts, AddButton, UpdateButton, DeleteButton } from "../../compon
 // Componente da tela de estoque
 const Stock: React.FC = () => {
 
-  
   const { products } = useProducts();
 
   const [SearchItem, setSearchItem] = useState('')
