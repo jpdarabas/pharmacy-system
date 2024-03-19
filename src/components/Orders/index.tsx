@@ -64,7 +64,7 @@ export const AddButton: React.FC = () => {
     
     /* USE CONTEXTS */
     const { orders, addOrder } = useOrders();
-    const { products, updateProduct } = useProducts();
+    const { products } = useProducts();
     const { customers } = useCustomers();
 
     
@@ -130,20 +130,18 @@ export const AddButton: React.FC = () => {
 
         });
 
-      
-        if(!stockValidation.length){
+        if(Object.entries(stockValidation)[0]){
           alert(msg)
           return
         }
         
         /* STOCK UPDATE */
+          Object.entries(value_counts).forEach(([productName, count]) => {
+            const index = products.findIndex(product => product.name.toLowerCase() === productName.toLowerCase());
+            products[index].stock -= count;
+          });
 
-        /*
-
-          ATUALIZAR O VALOR DOS PRODUTOS
-
-        */
-
+        /* FINALLY ADDING ORDER */
         const newOrder = {
             id: id,
             customer: customer as string,
@@ -352,7 +350,6 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
       ARRUMAR O BOTÃO
   */
 
-
   /* ONCLICK FUNCTION */
   const DeleteOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -363,10 +360,28 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
 
     /* GIVING BACK ORDER QUANTITIES TO STOCK */
     const updatedProducts = [...products];
-    const Pindex = products.findIndex(product => product.name.toLowerCase() === orders[index].product.toLowerCase());
-    updatedProducts[Pindex].stock += orders[index].quantity;
+
+    const order = updatedOrders[index]
+
+    const value_counts: { [key: string]: number } = {}
+
+    order.products.forEach((product, index)=> {
+      /* COUNTING DIFFERENT PRODUCTS */
+      if (value_counts[product]) {
+        value_counts[product] += order.quantities[index];
+      } else {
+        value_counts[product] = order.quantities[index];
+      }
+    })
+
+    Object.entries(value_counts).forEach(([productName, count]) => {
+      const index = products.findIndex(product => product.name.toLowerCase() === productName.toLowerCase());
+      products[index].stock += count;
+    });
 
     updateProduct(updatedProducts);
+
+    /* DELETING ORDER */
     if (index !== -1) {
       updatedOrders.splice(index, 1);
     }
