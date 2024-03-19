@@ -170,7 +170,7 @@ export const AddButton: React.FC = () => {
 
 return (
 <div>
-    <button onClick={openModal}><span className="material-symbols-outlined">
+    <button onClick={openModal}><span className="material-symbols-outlined hover:animate-spin">
         add</span></button>
 
     {isModalOpen && (

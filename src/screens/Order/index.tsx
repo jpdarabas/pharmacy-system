@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TableHead from "../../components/TableHead/index.tsx";
 import TableItem from "../../components/TableItem/index.tsx";
 import Search from "../../components/Search/index.tsx";
-import { useOrders, AddButton, DeleteButton } from "../../components/Orders/index.tsx";
+import { useOrders, AddButton, DeleteButton, OrderProductsButton } from "../../components/Orders/index.tsx";
 
 // Componente da tela de pedidos
 const TeladePedidos: React.FC = () => {
@@ -35,10 +35,10 @@ const TeladePedidos: React.FC = () => {
         <TableItem
         item_1={'#'+order.id}
         item_2={order.customer}
-        item_3={order.product} // Colocar um botao
+        item_3={<OrderProductsButton order={order}></OrderProductsButton>}// Colocar um botao
         item_4={''+order.quantities.reduce((accumulator, currentValue) => accumulator + currentValue, 0)} // somar quantities
-        item_5={`R$${order.total}`}>
-        <DeleteButton id={'' + order.id}></DeleteButton>
+        item_5={`R$${order.total.reduce((accumulator, currentValue) => accumulator + currentValue, 0)}`}>
+        <DeleteButton id={order.id}></DeleteButton>
         </TableItem>
 
       ))}

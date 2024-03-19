@@ -3,7 +3,7 @@ import React, { ReactNode, createContext, useState, useContext } from 'react';
 import { useProducts } from "../Products/index.tsx";
 import { useCustomers } from "../Customers/index.tsx";
 
-
+/* INTERFACE ORDERS */
 interface Orders {
     id: number;
     customer: string;
@@ -12,7 +12,7 @@ interface Orders {
     total: Array<number>;
   }
 
-
+/* INTERFACE ORDERS CONTEXT PROPERTIES */
 interface OrdersContextProps {
     orders: Orders[];
     addOrder: (newProduct: Orders) => void;
@@ -20,12 +20,16 @@ interface OrdersContextProps {
 }
 
 
+/* ORDERSCONTEXT */
 const OrdersContext = createContext<OrdersContextProps | undefined>(undefined);
 
+
+/* INTERFACE ORDERS PROVIDER PROPERTIES */
 interface OrdersProviderProps {
     children: ReactNode;
   }
 
+/* ORDERS PROVIDER */
 export const OrdersProvider: React.FC<OrdersProviderProps> = ({ children }) => {
   const [orders, setOrders] = useState<Orders[]>([]);
 
@@ -43,6 +47,8 @@ export const OrdersProvider: React.FC<OrdersProviderProps> = ({ children }) => {
   );
 };
 
+
+/* USE ORDERS */
 export const useOrders = () => {
   const context = useContext(OrdersContext);
   if (!context) {
@@ -52,23 +58,29 @@ export const useOrders = () => {
 };
 
 
-
-
+/* ADD ORDER BUTTON */
 export const AddButton: React.FC = () => {
 
+    
+    /* USE CONTEXTS */
     const { orders, addOrder } = useOrders();
     const { products, updateProduct } = useProducts();
     const { customers } = useCustomers();
 
-    const [isModalOpen, setModalOpen] = useState(false);
-
-    const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);
     
-    const [orderProducts, setOrderProducts] = useState([{id: 1, name:'', quantity:1, total:0}])
+    /* MODAL OPEN/CLOSE */
+    const [isModalOpen, setModalOpen] = useState(false);
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => {
+      setOrderProducts([{id: 1, name:'', quantity:0, total:0, isSelected:false}])
+      setModalOpen(false)
+    };
+    
+    /* ORDER PRODUCTS */
+    const [orderProducts, setOrderProducts] = useState([{id: 1, name:'', quantity:0, total:0, isSelected:false}])
 
 
-    // Função do onSubmit
+    /* ONSUBMIT FUNCTION */
     const AddOrder = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -78,33 +90,59 @@ export const AddButton: React.FC = () => {
         const id = orders.length > 0 ? orders[orders.length - 1].id + 1 : 1;
         
         const customer = formData.get('customer');
-        const productName = formData.get('product');
-        const quantity = Number(formData.get('quantity'));
+       
+        /* VALIDATIONS */
+        let countValidation = 0
+        const value_counts: { [key: string]: number } = {}
 
-        const selectedProduct = products.find(product => product.name === productName);
-
-        if (!selectedProduct) {
-            alert(`Produto com nome ${productName} não encontrado.`);
-            return;
+        orderProducts.forEach((product)=> {
+          /* COUNTING DIFFERENT PRODUCTS */
+          if (value_counts[product.name]) {
+            value_counts[product.name] += product.quantity;
+          } else {
+            value_counts[product.name] = product.quantity;
           }
-        if (selectedProduct.stock < quantity) {
-            alert('Quantidade maior do que a disponível do estoque.');
-            return;
+
+          /* NO EMPTY VALUES CONDITION */
+          if (product.name === "" || product.quantity < 1){
+            countValidation ++
+          }
+        })
+
+        if (countValidation){
+          alert('Preencha os campos corretamente')
+          return
         }
 
-        const total = (parseInt((selectedProduct.value * 100 * quantity).toFixed(0), 10))/100;
-
-        // Tirando a quantidade do produto no pedido do estoque
-        const updatedProducts = [...products]
-        const index = products.findIndex(product => product.name === productName);
+        /* STOCK VALIDATION */
+        const stockValidation: { [key: string]: Array<number> } = {}
+        Object.entries(value_counts).forEach(([productName, count]) => {
+          const index = products.findIndex(product => product.name.toLowerCase() === productName.toLowerCase())
+          if (products[index].stock < count){
+            stockValidation[productName] = [products[index].stock, count]
+          }
+        });
         
-        updatedProducts[index].stock -= quantity;
+        let msg: string = '';
 
-        updateProduct(updatedProducts)
-        if (!customer || !productName || quantity <= 0 || total <= 0) {
-            alert('Preencha todos os campos obrigatórios.');
-            return;
-            }
+        Object.entries(stockValidation).forEach(([productName, stockInfo]) => {
+          msg += `Estoque insuficiente de ${productName} - Em estoque: ${stockInfo[0]}. Quantidade pedida: ${stockInfo[1]} \n`
+
+        });
+
+      
+        if(!stockValidation.length){
+          alert(msg)
+          return
+        }
+        
+        /* STOCK UPDATE */
+
+        /*
+
+          ATUALIZAR O VALOR DOS PRODUTOS
+
+        */
 
         const newOrder = {
             id: id,
@@ -116,37 +154,62 @@ export const AddButton: React.FC = () => {
 
         addOrder(newOrder);
         setModalOpen(false);
+        setOrderProducts([{id: 1, name:'', quantity:0, total:0, isSelected:false}])
     };
 
     
+    /* SEARCH PRODUCTS */
     const [SearchItems, setSearchItem] = useState([{id: 1, name:''}])
         
     const ProductSearchChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
         const updatedSearchItem = [...SearchItems]
         updatedSearchItem.find(item => item.id === id).name = e.target.value.toLowerCase();
         setSearchItem(updatedSearchItem)
+        const updatedProducts = [...orderProducts];
 
+        updatedProducts.find(item => item.id === id).isSelected = true;
+        
+        updatedProducts.find(item => item.id === id).name = products.filter(product =>
+          product.name.toLowerCase().includes(e.target.value.toLowerCase()))[0].name.toLowerCase()
+        setOrderProducts(updatedProducts);
       };
 
+
+    /* ONCHANGE SELECT PRODUCT */
     const ProductChange = (e: React.ChangeEvent<HTMLSelectElement>, id: number) => {
       const updatedProducts = [...orderProducts];
-      updatedProducts.find(item => item.id === id).name = e.target.value.toLowerCase();
+      updatedProducts.find(item => item.id === id).name = e.target.value;
       setOrderProducts(updatedProducts);
-
     }
 
+    /* SEARCH CUSTOMER */
     const [SearchCustomer, setSearchCustomer] = useState('')
 
     const CustomerSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchCustomer(e.target.value.toLowerCase())
     };
 
+    /* ADD ANOTHER PRODUCT TO ORDER */
     const AddProduct = () => {
-        setOrderProducts([...orderProducts, {id:orderProducts[orderProducts.length - 1].id + 1, name:'', quantity:1, total:0}])
+        setOrderProducts([...orderProducts, {id:orderProducts[orderProducts.length - 1].id + 1, name:'', quantity:0, total:0, isSelected:false}])
         setSearchItem([...SearchItems, {id:SearchItems[SearchItems.length - 1].id + 1, name:''}])
     }
 
+    /* DELETE PRODUCT FROM ORDER LIST */
+    const DeleteProduct = (id:number) => {
+      const updatedOrderProducts = [...orderProducts]
+      const updatedSearchItems = [...SearchItems]
 
+      const index = updatedOrderProducts.findIndex(item => item.id === id)
+
+      updatedOrderProducts.splice(index, 1)
+      updatedSearchItems.splice(index, 1)
+
+      setOrderProducts(updatedOrderProducts)
+      setSearchItem(updatedSearchItems)
+  }
+
+    /* QUANTITY ONCHANGE */
     const QuantitiesChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
       const updatedProducts = [...orderProducts];
       const qtt = Number(e.target.value)
@@ -156,14 +219,7 @@ export const AddButton: React.FC = () => {
       const productName = updatedProducts.find(item => item.id === id).name
 
 
-      const selectedProduct = products.find(product => product.name === productName);
-
-      if (!selectedProduct) {
-          alert(`Produto com nome ${productName} não encontrado.`);
-        }
-      if (selectedProduct.stock < qtt) {
-          alert('Quantidade maior do que a disponível do estoque.');
-      }
+      const selectedProduct = products.find(product => product.name.toLowerCase() === productName.toLowerCase());
 
       const total = (parseInt((selectedProduct.value * 100 * qtt).toFixed(0), 10))/100;
 
@@ -172,6 +228,7 @@ export const AddButton: React.FC = () => {
       setOrderProducts(updatedProducts);
     };
 
+    /* BUTTON/MODAL HTML */
     return (
     <div>
         <button onClick={openModal}><span className="material-symbols-outlined hover:animate-spin">
@@ -212,7 +269,6 @@ export const AddButton: React.FC = () => {
                     {/* SEARCH PRODUCT */}
                     <input
                     type="text"
-                    defaultValue={orderProduct.name}
                     onChange={(e) => ProductSearchChange(e, orderProduct.id)}
                     placeholder="Buscar produto"
                     className="w-full border p-2 rounded mb-4 mr-2"/>
@@ -221,7 +277,7 @@ export const AddButton: React.FC = () => {
                     name="product"
                     onChange={(e) => ProductChange(e, orderProduct.id)}
                     className="w-full border p-2 rounded mb-4">
-                    {isSelected && <option value="" disabled selected hidden>Selecione um produto</option>}
+                    {!orderProduct.isSelected && <option value="" disabled selected hidden>Selecione um produto</option>}
                         {
                             (products.filter(product =>
                                 product.name.toLowerCase().includes(SearchItems.find(item => item.id === orderProduct.id).name))).map(product => 
@@ -238,7 +294,7 @@ export const AddButton: React.FC = () => {
                     className="w-full border p-2 rounded mb-4"/>
                     {/* VALUES */}
                     <div className="w-full border p-2 rounded mb-4">
-                      Valor: {orderProduct.total}
+                      Valor: R${orderProduct.total}
                     </div>
                     {/* ADD PRODUCT BUTTON */}
                     <button 
@@ -246,6 +302,13 @@ export const AddButton: React.FC = () => {
                     className="border  rounded px-1 mb-4 mr-1 material-symbols-outlined hover:bg-slate-200"
                     onClick={AddProduct}>
                     add
+                    </button>
+                    {/* DELETE PRODUCT BUTTON */}
+                    <button 
+                    type="button"
+                    className="border  rounded px-1 mb-4 mr-1 material-symbols-outlined hover:bg-slate-200"
+                    onClick={() => (DeleteProduct(orderProduct.id))}>
+                    delete
                     </button>
                 </div>
                 ))}
@@ -273,26 +336,34 @@ export const AddButton: React.FC = () => {
     );
     };
 
-    
+/* INTERFACE DELETE ORDER BUTTON PROPERTIES */
 interface DeleteButtonProps {
-  id: string;
+  id: number;
 }
+
+
+/* DELETE ORDER BUTTON */
 export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
 
   const { orders, updateOrder } = useOrders();
   const { products, updateProduct } = useProducts();
 
-  // Função do onClick
+  /*
+      ARRUMAR O BOTÃO
+  */
+
+
+  /* ONCLICK FUNCTION */
   const DeleteOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const index = orders.findIndex(order => order.id.toString() === id);
+    const index = orders.findIndex(order => order.id === id);
 
     const updatedOrders = [...orders];
 
-    // Devolvendo a quantidade do pedido ao estoque
+    /* GIVING BACK ORDER QUANTITIES TO STOCK */
     const updatedProducts = [...products];
-    const Pindex = products.findIndex(product => product.name === orders[index].product);
+    const Pindex = products.findIndex(product => product.name.toLowerCase() === orders[index].product.toLowerCase());
     updatedProducts[Pindex].stock += orders[index].quantity;
 
     updateProduct(updatedProducts);
@@ -302,6 +373,7 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
     updateOrder(updatedOrders);
   };
 
+  /* DELETE BUTTON HTML */
   return (
     <div>
       <button id={id} onClick={DeleteOrder}><span className="material-symbols-outlined">
@@ -309,3 +381,56 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
     </div>
   );
 };
+  
+/* INTERFACE SHOW ORDER PRODUCTS BUTTON PROPERTIES */
+interface OrderProductsButtonProps {
+  order: Orders;
+}
+
+/* SHOW ORDER PRODUCTS BUTTON */
+export const OrderProductsButton: React.FC<OrderProductsButtonProps>= ({order}) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+  return (
+    <div>
+      <button onClick={openModal} className='block p-2 hover:bg-gray-300 transition duration-300 rounded-md'> Produtos </button>
+
+      {isModalOpen && (
+        <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50'>
+          <div className='modal bg-white p-8 rounded relative'>
+            <button onClick={closeModal}
+                    className="material-symbols-outlined absolute top-0 right-0 mt-1 mr-1">close</button>
+            <table>
+              <thead> <tr className='border-b bg-gray-50 uppercase'>
+                <th className='px-5 py-4'>Produto</th> 
+                <th className='px-5 py-4'>Quantidade</th> 
+                <th className='px-5 py-4'>Total</th>
+                </tr></thead>
+              <tbody>
+                {order.products.map((product, index) => {
+                  const quantity = order.quantities[index]
+                  const total = order.total[index]
+                  return(
+                    <tr className='border-b rounded-lg bg-gray-50'>
+                      <td className='px-5 py-4'>{product}</td>
+                      <td className='px-5 py-4'>{quantity}</td>
+                      <td className='px-5 py-4'>R${total}</td>
+                    </tr>
+                        )}
+                )}
+              </tbody>
+            </table>
+            <p>Total: R${order.total.reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+
+
+  /*
+      CRIAR UM BOTÃO DE EDITAR
+  */
